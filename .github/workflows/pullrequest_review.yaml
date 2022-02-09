@@ -9,16 +9,27 @@ jobs:
   review-requested:
     runs-on: ubuntu-latest
     steps:
+      - name: Get comment body
+        id: get-comment-body
+        run: |
+          body="$(cat .github/templates/reviewer_template.md)"
+          output=$(sed 's/#USERNAME/@${{context.payload.requested_reviewer.login}}/' <<< "$body")
+          echo "::set-output name=body::$body"
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 1
+          body: ${{ steps.get-comment-body.outputs.body }}
       - name: PR Comment
         uses: actions/github-script@v2
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(JSON.stringify(context));
+            const template = await 
             github.issues.createComment({
               issue_number: ${{ github.event.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '[ ] Test'
+              body: '- [ ] Test'
             })
 
