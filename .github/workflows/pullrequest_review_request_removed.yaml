@@ -17,6 +17,7 @@ jobs:
           body-includes: "@${{ github.event.requested_reviewer.login }} thanks for your future review."
       - name: Delete Comment
         uses: actions/github-script@v5
+        if: steps.fc.outputs.comment-id != 0
         with:
           script: |
             github.rest.issues.deleteComment({
