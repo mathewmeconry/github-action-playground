@@ -1,14 +1,12 @@
-name: Pull Request Review
+name: Pull Request Review Added
 on:
   pull_request:
     types:
       - review_requested
-      - review_request_removed
 
 jobs:
   review-requested:
     runs-on: ubuntu-latest
-    if: github.action == 'review_requested'
     steps:
       - uses: actions/checkout@v2
       - name: Get comment body
@@ -25,9 +23,18 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: ${{ steps.get-comment-body.outputs.body }}
+
+---
+
+name: Pull Request Review Removed
+on:
+  pull_request:
+    types:
+      - review_request_removed
+
+jobs:
   review-request-removed:
     runs-on: ubuntu-latest
-    if: github.action == 'review_request_removed'
     steps:
       - name: Find Comment
         uses: peter-evans/find-comment@v1
