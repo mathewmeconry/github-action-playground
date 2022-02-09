@@ -8,7 +8,7 @@ on:
 jobs:
   review-requested:
     runs-on: ubuntu-latest
-    if: github.event_name == "review_requested"
+    if: github.event_name == 'review_requested'
     steps:
       - uses: actions/checkout@v2
       - name: Get comment body
@@ -27,7 +27,7 @@ jobs:
           body: ${{ steps.get-comment-body.outputs.body }}
   review-request-removed:
     runs-on: ubuntu-latest
-    if: github.event_name == "review_request_removed"
+    if: github.event_name == 'review_request_removed'
     steps:
       - name: Find Comment
         uses: peter-evans/find-comment@v1
