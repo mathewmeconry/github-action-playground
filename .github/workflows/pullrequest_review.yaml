@@ -15,6 +15,9 @@ jobs:
         run: |
           body="$(cat .github/templates/reviewer_template.md)"
           body=$(sed 's/#USERNAME/@${{ github.event.requested_reviewer.login }}/' <<< "$body")
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}" 
           echo "::set-output name=body::$body"
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
