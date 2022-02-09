@@ -13,7 +13,7 @@ jobs:
         id: get-comment-body
         run: |
           body="$(cat .github/templates/reviewer_template.md)"
-          output=$(sed 's/#USERNAME/@${{context.payload.requested_reviewer.login}}/' <<< "$body")
+          output=$(sed 's/#USERNAME/@${{github.event.requested_reviewer.login}}/' <<< "$body")
           echo "::set-output name=body::$body"
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
