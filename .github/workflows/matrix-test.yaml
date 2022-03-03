@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Conclude
-        run: echo $OUTPUTS
+        run: echo '${{ needs.matrix }}' > debug.txt
         env:
           OUTPUTS: ${{ needs.matrix.outputs.matrix }}
       - name: ssh
