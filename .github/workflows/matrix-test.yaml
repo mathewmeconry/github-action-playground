@@ -27,7 +27,7 @@ jobs:
         id: matrix
         run: |
           echo "::set-output name=node::$NODE"
-          echo "::set-output name=node${{ matrix.node }}=TEST"
+          echo "::set-output name=node${{ matrix.node }}::TEST"
         env:
           NODE: ${{ matrix.node }}
   conclude:
