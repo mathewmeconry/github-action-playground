@@ -17,7 +17,7 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ toJSON(steps.matrix.outputs) }}
+      matrix: ${{ toJSON(steps) }}
     strategy:
       fail-fast: true
       matrix:
@@ -36,5 +36,3 @@ jobs:
     steps:
       - name: Conclude
         run: echo '${{ toJSON(needs) }}' > debug.txt
-      - name: ssh
-        uses: mxschmitt/action-tmate@v3
