@@ -26,13 +26,16 @@ jobs:
       - name: output matrix
         id: matrix
         run: |
-          echo "::set-output name=node::$NODE"
-          echo "::set-output name=node${{ matrix.node }}::TEST"
-        env:
-          NODE: ${{ matrix.node }}
+          echo "demo node ${{ matrix.node }}" > test.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{matrix.node}}
+          path: test.txt
+          retention-days: 1
   conclude:
     needs: [matrix]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v3
       - name: Conclude
-        run: echo '${{ toJSON(needs) }}' > debug.txt
+        run: ls -R
