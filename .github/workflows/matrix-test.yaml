@@ -17,7 +17,7 @@ jobs:
     needs: [prepare]
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.node }}
+      matrix: ${{ toJSON(steps.matrix.outputs) }}
     strategy:
       fail-fast: true
       matrix:
