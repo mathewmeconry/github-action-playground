@@ -25,7 +25,9 @@ jobs:
     steps:
       - name: output matrix
         id: matrix
-        run: echo "::set-output name=node::$NODE"
+        run: |
+          echo "::set-output name=node::$NODE"
+          echo "::set-output name=node${{ matrix.node }}=TEST"
         env:
           NODE: ${{ matrix.node }}
   conclude:
@@ -33,8 +35,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Conclude
-        run: echo '$OUTPUTS' > debug.txt
-        env:
-          OUTPUTS: ${{ toJSON(needs.matrix.outputs) }}
+        run: echo '${{ toJSON(needs) }}' > debug.txt
       - name: ssh
         uses: mxschmitt/action-tmate@v3
