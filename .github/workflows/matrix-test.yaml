@@ -1,0 +1,38 @@
+name: Matrix output test
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  prepare:
+    outputs:
+      networks: ${{ steps.prepare.outptus.networks }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: output prepare
+        id: prepare
+        run: echo "::set-output name=networks::TEST"
+  matrix:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.node }}
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [10, 12, 14]
+    steps:
+      - name: output matrix
+        id: matrix
+        run: echo "::set-output name=node::$NODE"
+        env:
+          NODE: ${{ matrix.node }}
+  conclude:
+    needs: [matrix]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conclude
+        run: echo $OUTPUTS
+        env:
+          OUTPUTS: ${{ needs.matrix.outputs.matrix }}
