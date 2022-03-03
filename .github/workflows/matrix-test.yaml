@@ -36,3 +36,5 @@ jobs:
         run: echo $OUTPUTS
         env:
           OUTPUTS: ${{ needs.matrix.outputs.matrix }}
+      - name: ssh
+        uses: mxschmitt/action-tmate@v3
